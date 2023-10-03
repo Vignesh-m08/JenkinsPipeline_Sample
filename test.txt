@@ -9,21 +9,21 @@ pipeline {
 
       stage ('Checkout SCM'){
         steps {
-          checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git', url: 'https://iwayqtech@bitbucket.org/iwayqtech/devops-pipeline-project.git']]])
+          checkout([$clss: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git', url: 'https://iwayqtech@bitbucket.org/iwayqtech/devops-pipeline-project.git']]])
         }
       }
 	  
-	  stage ('Build')  {
+	  stage ('uild')  {
 	      steps {
           
             dir('java-source'){
-            sh "mvn package"
+            sh "mn package"
           }
         }
          
       }
    
-     stage ('SonarQube Analysis') {
+     stage ('SonrQube Analysis') {
         steps {
               withSonarQubeEnv('sonar') {
                 
@@ -35,7 +35,7 @@ pipeline {
             }
       }
 
-    stage ('Artifactory configuration') {
+    stage ('Arfactory configuration') {
             steps {
                 rtServer (
                     id: "jfrog",
@@ -43,7 +43,7 @@ pipeline {
                     credentialsId: "jfrog"
                 )
 
-                rtMavenDeployer (
+                rtenDeployer (
                     id: "MAVEN_DEPLOYER",
                     serverId: "jfrog",
                     releaseRepo: "iwayq-libs-release-local",
